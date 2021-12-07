@@ -15,6 +15,19 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('template/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/assets/css/components.css') }}">
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,27 +43,33 @@
                             </div>
 
                             <div class="card-body">
-                                <form method="POST">
+                                @if($errors->any())
+                                    @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                                    @endforeach
+                                @endif
+                                <form method="POST" action="{{ route('registerUser') }}">
+                                    @csrf
                                     <div class="row">
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="">Nama Lengkap</label>
-                                            <input id="" type="text" class="form-control" name=""
-                                                autofocus>
+                                            <input id="" type="text" class="form-control" name="nama"
+                                                autofocus required>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="">Alamat</label>
-                                            <input id="" type="text" class="form-control" name="">
+                                            <input id="" type="text" class="form-control" name="alamat" required>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="email">No. WhatsApp</label>
-                                            <input id="email" type="email" class="form-control" name="email">
+                                            <input id="no_whatsapp" type="number" class="form-control" name="no_whatsapp" required>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="email">Email</label>
-                                            <input id="email" type="email" class="form-control" name="email">
+                                            <input id="email" type="email" class="form-control" name="email" required>
                                         </div>
                                     </div>
 
@@ -58,7 +77,7 @@
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="password" class="d-block">Password</label>
                                             <input id="password" type="password" class="form-control pwstrength"
-                                                data-indicator="pwindicator" name="password">
+                                                data-indicator="pwindicator" name="password" required>
                                             <div id="pwindicator" class="pwindicator">
                                                 <div class="bar"></div>
                                                 <div class="label"></div>
@@ -67,7 +86,7 @@
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="password2" class="d-block">Konfirmasi Password</label>
                                             <input id="password2" type="password" class="form-control"
-                                                name="password-confirm">
+                                                name="password_confirmation" required>
                                         </div>
                                     </div>
 

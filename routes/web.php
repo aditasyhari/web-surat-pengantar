@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 route::view('/', 'landingPage');
 
 route::get('/register', 'authController@register')->name('register');
+route::post('/register-user', 'authController@registerUser')->name('registerUser');
 
 route::get('/login', 'authController@login')->name('login');
 route::post('/postlogin', 'authController@postlogin')->name('postlogin');

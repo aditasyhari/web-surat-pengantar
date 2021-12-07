@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\User;
 use Auth;
 
 class authController extends Controller
@@ -33,8 +36,36 @@ class authController extends Controller
         return redirect()->route('login');
     }
 
+    public function register(Request $request)
+    {
+        return view('auth.register');
+    }
+
     public function registerUser(Request $request)
     {
 
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'alamat' => 'required',
+            'no_whatsapp' => 'required|numeric',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        User::create([
+            'level' => 'pengguna',
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'no_whatsapp' => $request->no_whatsapp,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('login')->with('success', 'Berhasil mendaftar. Silahkan Login !');
     }
+
 }
